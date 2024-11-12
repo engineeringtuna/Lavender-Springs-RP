@@ -110,11 +110,11 @@ Config = {
     --=============================================
 
     HealthOnRespawn       = 500,                                  -- Player health after respawning at a hospital (max is 500).
-    HealthOnResurrection  = 100,                                  -- Player health after being resurrected (max is 500).
+    HealthOnResurrection  = 500,                                  -- Player health after being resurrected (max is 500).
     RagdollOnResurrection = true,                                 -- Enables ragdoll and revive effects upon resurrection.
     HealthRecharge        = { enable = true, multiplier = 0.37 }, -- Auto-recharge for health, with a multiplier for speed.
     StaminaRecharge       = { enable = true, multiplier = 0.4 },  -- Auto-recharge for stamina, with a multiplier for speed.
-    RespawnTime           = 10,                                   -- Time in seconds before a player can respawn.
+    RespawnTime           = 60,                                   -- Time in seconds before a player can respawn.
     RespawnKey            = 0xDFF812F9,                           -- Key code for respawning (default is 'E').
     RespawnKeyTime        = 5000,                                 -- Time in milliseconds to hold the respawn key.
     CombatLogDeath        = true,                                 -- Combat loggers respawn in a dead state instead of alive.
