@@ -1,0 +1,21 @@
+Locales["ro_lang"] = {
+    Negotiate = "Negociaza",
+    npcRejectOffer = "Persoana ti-a respins oferta",
+    npcAcceptOffer = "Persoana a acceptat oferta ta",
+    saleUnsuccessful = "Vanzare Esuata",
+    dontHaveItems = "Nu ai articolele necesare pentru a finaliza vanzarea.",
+    aproachNpc = "Comert cu britanicii",
+    tooFarAway = "Esti prea departe. Vanzare Anulata",
+    saleSuccessful = "Vanzare Reusita",
+    youReceived = "Ai primit $",
+    sellToNpcReport = "Este in desfasurare o activitate de ilegale!..",
+    npcAlreadySold = "Ai vandut deja acestui britanic.",
+    npcReject = "Britanicul a refuzat oferta ta.",
+    userNotFound = "User not found.",
+    characterNotFound = "Character data missing.",
+    NotAllowed = "Din cauza meseriei tale nu te poti targui cu persoana",
+    notEnoughOfficers = "Nu sunt suficienti ofiteri. Minim: ",
+    officerAvaiable = " Disponibili: ",
+    alreadyInteractedWithNpc = "Te-ai targuit deja cu aceasta persoana",
+    sellLimitReached = 'Ai atins limita pe care poti vinde atunci cand nu sunt politisti la datorie!'
+}
