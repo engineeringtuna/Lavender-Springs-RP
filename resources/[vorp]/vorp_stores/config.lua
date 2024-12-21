@@ -23,11 +23,11 @@ Config.WebhookLanguage = {
 Config.UI = function(state)
     if state then
         --ExecuteCommand("hideneeds hidden")
-        --ExecuteCommand("hideui")
+        ExecuteCommand("hideui")
         TriggerEvent('vorpmetabolism:setHud', false)
     else
         -- ExecuteCommand("hideneeds visible")
-        -- ExecuteCommand("showui")
+        ExecuteCommand("showui")
         TriggerEvent('vorpmetabolism:setHud', true)
     end
 end
@@ -39,7 +39,7 @@ Config.Key = 0x760A9C6F --[G] open stores
 Config.Stores = {
     -- any name you want sell items and buy items must have same name
     Valentine = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
+
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -69,16 +69,15 @@ Config.Stores = {
 
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",    Type = "food",    desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools",   Type = "tools",   desc = "useful tools",   img = "butcher_table_production" },
+            { label = "Weapons", Type = "weapons", desc = "buy weapons",    img = "butcher_table_production" },
         },
-        -- Store type for buy and sell
+        -- * store type allow which type of store to show in the store
+        -- * buy and sell USE ENGLISH ONLY
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy", Type = "buy", desc = "Buy from store", img = "consumable_bread_roll" },
+            --{ label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
         },
 
         storeName = "valentine",      -- menu name
@@ -94,9 +93,8 @@ Config.Stores = {
 
     },
 
-
     Rhodes = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
+
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -129,16 +127,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -148,7 +144,6 @@ Config.Stores = {
 
     },
     Strawberry = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -183,16 +178,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -202,7 +195,6 @@ Config.Stores = {
 
     },
     Blackwater = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -234,16 +226,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -253,7 +243,6 @@ Config.Stores = {
 
     },
     Armadillo = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -286,16 +275,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -305,7 +292,6 @@ Config.Stores = {
 
     },
     Tumbleweed = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -337,16 +323,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -355,7 +339,6 @@ Config.Stores = {
         DynamicStore = true,
     },
     StDenis = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -383,21 +366,19 @@ Config.Stores = {
 
         storeName = "ST Denis",
         PromptName = "general store",
-        distanceOpenStore = 3.0,
+        distanceOpenStore = 2.0,
         AllowedJobs = {},
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -407,7 +388,6 @@ Config.Stores = {
 
     },
     Vanhorn = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -439,16 +419,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -458,7 +436,6 @@ Config.Stores = {
 
     },
     BlackwaterFishing = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -493,16 +470,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,
@@ -511,7 +486,6 @@ Config.Stores = {
         DynamicStore = true,
     },
     Wapiti = {
-        isDeactivated = false,     -- use this to activate stores or deactivate
         useRandomLocation = false, -- if true it will pick a random location from the list bellow, good thing for a store that can move and not always in the same place and npc
         possibleLocations = {
             OpenMenu = {
@@ -542,16 +516,14 @@ Config.Stores = {
         JobGrade = 0,
         -- * store categories allow which category to show in the store
         category = {
-            { label = "Food",    Type = "food",    desc = "Delicious food",       img = "consumable_bread_roll" },
-            { label = "Tools",   Type = "tools",   desc = "Useful tools",         img = "butcher_table_production" },
-            { label = "Weapons", Type = "weapons", desc = "Buy weapons",          img = "butcher_table_production" },
-            { label = "Meds",    Type = "meds",    desc = "Medical supplies",     img = "syringe" },
-            { label = "Drinks",  Type = "drinks",  desc = "Refreshing beverages", img = "whisky" },
+            { label = "food",  Type = "food",  desc = "delicious food", img = "consumable_bread_roll" },
+            { label = "tools", Type = "tools", desc = "useful tools",   img = "butcher_table_production" },
         },
         -- * store type allow which type of store to show in the store
         storeType = {
-            { label = "Buy",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
-            { label = "Sell", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" },
+            { label = "Buy ",  Type = "buy",  desc = "Buy from store", img = "consumable_bread_roll" },
+            { label = "Sell ", Type = "sell", desc = "Sell to store",  img = "butcher_table_production" }
+
         },
         StoreHoursAllowed = true,
         RandomPrices = true,

@@ -1,18 +1,14 @@
-local VorpCore = exports.vorp_core:GetCore()
+local VorpCore = {}
 
-local function giveReward(context, data, skipfinal)
+TriggerEvent("getCore", function(core)
+	VorpCore = core
+end)
+
+local VorpInv = exports.vorp_inventory:vorp_inventoryApi()
+
+local function giveReward(context, data, skipfinal, entity)
 	local _source = source
 	local Character = VorpCore.getUser(_source).getUsedCharacter
-
-	if Config.joblocked then -- security check
-		for index, value in ipairs(Config.Butchers) do
-			if Character.job == value.butcherjob then
-				TriggerClientEvent("vorp_hunting:lock", _source)
-				VorpCore.NotifyObjective(_source, "is job locked", 4000)
-				break
-			end
-		end
-	end
 
 	local money, gold, rolPoints, xp = 0, 0, 0, 0
 	local givenItem, givenAmount, givenDisplay = {}, {}, {}
@@ -98,7 +94,7 @@ local function giveReward(context, data, skipfinal)
 		if #monies > 0 then
 			VorpCore.AddWebhook("Hunting", Config.webhook,
 				GetPlayerName(_source) .. " " .. "player received" .. table.concat(monies, ", "), nil, nil, nil, nil, nil)
-			VorpCore.NotifyObjective(_source, Config.Language.AnimalSold .. table.concat(monies, ", "), 4000)
+			TriggerClientEvent("vorp:TipRight", _source, Config.Language.AnimalSold .. table.concat(monies, ", "), 4000)
 		end
 
 		if not skipfinal then
@@ -107,12 +103,18 @@ local function giveReward(context, data, skipfinal)
 			TriggerClientEvent("vorp_hunting:finalizeReward", _source, data.entity, data.horse)
 		end
 
+		local itemsAvailable = true
+		local done = false
+
 		if #givenItem ~= #givenAmount then
 			print('Error: Please ensure givenItem and givenAmount have the same length in the items config.')
 		elseif (givenItem ~= nil) and (#givenItem > 0) then
 			local formattedGivenItems = {}
 			local total = 0
 
+			-- Format items and set random quantities if set.
+			-- Check if items can be added
+			-- total up the quantity so it can be checked as a whole
 			for k, v in ipairs(givenItem) do
 				local nmb = 0
 
@@ -134,18 +136,35 @@ local function giveReward(context, data, skipfinal)
 				total = total + nmb
 
 				-- Check if there is enough to add, if not send message
-				local canCarryInv = exports.vorp_inventory:canCarryItem(_source, v, nmb)
-				if not canCarryInv then
-					VorpCore.NotifyObjective(_source, Config.Language.FullInventory, 4000)
-					TriggerClientEvent("vorp_hunting:unlock", _source)
-					return
+				TriggerEvent("vorpCore:canCarryItem", tonumber(_source), v, nmb, function(canCarryItem)
+					if canCarryItem ~= true then
+						itemsAvailable = false
+					end
+					done = true
+				end)
+
+				while done == false do
+					Wait(500)
 				end
+			end
+
+			if itemsAvailable == false then
+				TriggerClientEvent("vorp:TipRight", _source, Config.Language.FullInventory, 4000)
+				TriggerClientEvent("vorp_hunting:unlock", _source)
+				return
+			end
+
+			-- Check if there is enough room in inventory in general.
+			local invAvailable = VorpInv.canCarryItems(_source, total)
+			if invAvailable ~= true then
+				TriggerClientEvent("vorp:TipRight", _source, Config.Language.FullInventory, 4000)
+				TriggerClientEvent("vorp_hunting:unlock", _source)
+				return
 			end
 
 			-- Give items
 			local validDisplays = #givenItem == #givenDisplay
 			local givenMsg = ""
-
 			if #formattedGivenItems > 0 then
 				if context == "skinned" then
 					givenMsg = Config.Language.SkinnableAnimalstowed
@@ -154,7 +173,6 @@ local function giveReward(context, data, skipfinal)
 				end
 				if not validDisplays then givenMsg = givenMsg .. "items..." end
 			end
-
 			for k, v in pairs(formattedGivenItems) do
 				if validDisplays then
 					if k > 1 then
@@ -163,16 +181,28 @@ local function giveReward(context, data, skipfinal)
 						givenMsg = givenMsg .. givenDisplay[k] .. ((v.nmb > 1) and "s" or "")
 					end
 				end
-				exports.vorp_inventory:addItem(_source, v.item, v.nmb)
+				VorpInv.addItem(_source, v.item, v.nmb)
 			end
 
 			if givenMsg ~= "" then
-				VorpCore.AddWebhook("Hunting", Config.webhook, GetPlayerName(_source) .. " player received" .. givenMsg)
-				VorpCore.NotifyRightTip(_source, givenMsg, 5000)
+				VorpCore.AddWebhook("Hunting", Config.webhook, GetPlayerName(_source) .. " player received" .. givenMsg,nil, nil, nil, nil, nil)
+				TriggerClientEvent("vorp:TipRight", _source, givenMsg, 4000)
 			end
 		end
 	end
 	TriggerClientEvent("vorp_hunting:unlock", _source)
 end
 
-RegisterServerEvent("vorp_hunting:giveReward", giveReward)
+RegisterServerEvent("vorp_hunting:giveReward")
+AddEventHandler("vorp_hunting:giveReward", giveReward)
+
+
+RegisterServerEvent("vorp_hunting:getJob")
+AddEventHandler("vorp_hunting:getJob", function()
+	local _source = source
+	local User = VorpCore.getUser(_source)
+	local Character = User.getUsedCharacter
+	local job = Character.job -- character table
+
+	TriggerClientEvent("vorp_hunting:findJob", _source, job)
+end)

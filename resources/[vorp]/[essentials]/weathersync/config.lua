@@ -1,5 +1,7 @@
 Config = {}
 
+Config.debug = false
+
 -- Determine if game is GTA V or RDR 2
 if IsDuplicityVersion() then
 	Config.isRDR = GetConvar("gamename", "gta5") == "rdr3"
@@ -33,7 +35,8 @@ Config.realTimeOffset = 0
 Config.timeIsFrozen = false
 
 -- Default weather when the resource starts
-Config.weather = Config.isRDR and "sunny" or "clear"
+Config.weather = Config.isRDR and "sunny" or "clear" -- Normal Weather
+--Config.weather = Config.isRDR and "snowlight" or "clear" -- Uncomment for Snowy Weather
 
 -- The interval (in-game time) between weather changes
 Config.weatherInterval = DHMSToTime(0, 1, 0, 0)
@@ -43,6 +46,10 @@ Config.weatherIsFrozen = false
 
 -- Whether to permanently add snow on the ground, or only during snowy weather
 Config.permanentSnow = false
+
+-- Toggle "Winter-Mode" for conversion of normal weather patters to snow variants
+-- use with above Config.PermanentSnow for "Winter Mode"
+Config.toggleWinter = false
 
 -- Whether to add snow on the ground when:
 -- 	a) in the snowy area of the map
@@ -70,8 +77,30 @@ Config.windShearInterval = 50.0
 -- Whether wind direction is frozen when the resource starts
 Config.windIsFrozen = false
 
--- How often in milliseconds to sync with clients
-Config.syncDelay = 5000
+-- Toggle Weather/time Syncing for players on resource starts, can be toggled by exports (see readme file Exports section)
+Config.syncEnabled = true -- Leave alone unless you know what you are doing!
+Config.syncDelay = 1000   -- How often in milliseconds to sync with clients
+
+-- TXAdmin Restart Integration 
+Config.ToggleTxAdmin = false      -- true is on | false is off
+Config.ToggleWeatherTips = false  -- true is on | false is off
+Config.TxpermanentSnow = false        -- true = on     | false = off
+Config.weatherTransition = 120.0     -- Weather Transition time in seconds
+
+-- Fallback if Restart is Cancelled to change weather to
+Config.restartTimeoutWeather = 'sunny'   -- Weather to fallback on if restart is cancelled
+
+Config.FirstTimeToRestart = 1800  -- 30 mins until restart in seconds
+Config.FirstAlert = "Weather Alert Goes Here"
+Config.Firstweather = 'drizzle'
+
+Config.SecondTimeToRestart = 900  -- 15 mins until restart in seconds
+Config.SecondAlert = "Weather Alert Goes Here"
+Config.Secondweather = 'rain'
+
+Config.ThirdTimeToRestart = 300   -- 5 mins until restart in seconds
+Config.ThirdAlert = "Weather Alert Goes Here"
+Config.Thirdweather = 'thunderstorm'
 
 -- The following tables describe the weather pattern of the world. For every type of weather that may occur, the types of weather that may follow are given with a number representing the percentage of their likeliness. For example:
 --

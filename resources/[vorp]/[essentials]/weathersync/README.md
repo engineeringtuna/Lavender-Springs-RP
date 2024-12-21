@@ -14,11 +14,24 @@
 
 - Players can temporarily disable sync and set local time/weather
 
+- TxAdmin Restart Integration
+  - Easily Toggle On/Off
+  - Customize at what times the weather will change leading up to the restart
+  - Set desired Weather changes leading up to Server Restart
+  - Customize weather transition time
+  - Added Fallback if Restart is cancelled for any reason
+    - Configurable fallback weather
+
+- "Winter-Mode" allows for changing weather patterns into snow variants
+  - Easily Toggle On/Off
+  - Combine with Permanent Snow config option for 'true' winter
+  - Changes output Forecast as well for exports and command usage
+
 # Examples
 
-| Forecast and admin UI | Region-specific weather | Adjustable timescale |
-|---|---|---|
-| [![Forecast and admin UI](https://i.imgur.com/Scn0z0Em.jpg)](https://imgur.com/Scn0z0E) | [![Region-specific weather](https://i.imgur.com/Loif9SMm.jpg)](https://imgur.com/Loif9SM) | [![Adjustable timescale](https://i.imgur.com/WkqHAs4m.jpg)](https://imgur.com/WkqHAs4) |
+| Forecast and admin UI | Region-specific weather | Adjustable timescale | Winter-Mode |
+|---|---|---|---|
+| [![Forecast and admin UI](https://i.imgur.com/Scn0z0Em.jpg)](https://imgur.com/Scn0z0E) | [![Region-specific weather](https://i.imgur.com/Loif9SMm.jpg)](https://imgur.com/Loif9SM) | [![Adjustable timescale](https://i.imgur.com/WkqHAs4m.jpg)](https://imgur.com/WkqHAs4) | [![Winter-Mode](https://i.imgur.com/3qE4sxs.png)](https://imgur.com/cc957Ax) |
 
 # Installation
 
@@ -60,7 +73,8 @@ start weathersync
 | `Config.weatherInterval`         | How often the weather changes.                                 | `DHMSToTime(0, 1, 0, 0)` (1 in-game hour) |
 | `Config.weatherIsFrozen`         | Whether weather is frozen when the resource starts.            | `false`                                   |
 | `Config.permanentSnow`           | Whether to permanently add snow on the ground.                 | `false`                                   |
-| `Config.dynamicSnow`             | Whether to dynamically add snow on the ground.                 | `true`                                    |
+| `Config.toggleWinter`            | Whether to convert weather to winter variants                  | `false`                                   |
+| `Config.dynamicSnow`             | Whether to dynamically add snow on the ground in cold regions  | `true`                                    |
 | `Config.maxForecast`             | Number of weather intervals to queue up.                       | `23` (24-hour forecast)                   |
 | `Config.windDirection`           | Default wind direction when the resource starts.               | `0.0` (North)                             |
 | `Config.windSpeed`               | Default base wind speed when the resource starts.              | `0.0`                                     |
@@ -68,11 +82,17 @@ start weathersync
 | `Config.windShearSpeed`          | Amount by which base wind speed increases at higher altitudes. | `2.0`                                     |
 | `Config.windShearInterval`       | Interval in metres where wind direction/speed changes.         | `50.0`                                    |
 | `Config.windIsFrozen`            | Whether wind direction is frozen.                              | `false`                                   |
-| `Config.permanentSnow`           | Whether to add snow on the ground permanently.                 | `false`                                   |
-| `Config.dynamicSnow`             | Whether to add snow on the ground dynamically.                 | `false`                                   |
 | `Config.syncDelay`               | How often in ms to sync with clients.                          | `5000`                                    |
+| `Config.ToggleTxAdmin`           | TxAdmin Integration. See [config.lua](config.lua) for sub-options   | `false`                              |
+| `Config.ToggleWeatherTips`           | Toggles the weather alerts during TxAdmin Restarts.   | `false`                                        |
+| `Config.TxpermanentSnow`           | Toggles permanent snow during TxAdmin Restart weather.   | `0` (0 is off, 1 is on)            |
+| `Config.weatherTransition`           | Sets the weather transition time during TxAdmin Restart weather.   | `120.0` (**use decimal**)          |
+| `Config.restartTimeoutWeather`           | Sets the fallback weather if TxAdmin restart is cancelled   | `sunny` See [config.lua](config.lua)  |
+| `Config.FirstTimeToRestart`           | Sets the ammount of time remaining to trigger weather change   | `1800` (1800 seconds is 30 minutes)   |
+| `Config.FirstAlert`           | Sets the custom alert message if enabled by ToggleWeatherTips. | `Weather Alert Goes Here` (any string of text)|
+| `Config.Firstweather`           | Sets the weather type to use leading up to the restart  | `drizzle`    See [config.lua](config.lua)     |
 | `Config.weatherPattern`          | A table describing the the weather pattern.                    | See [config.lua](config.lua)              |
-| `Config.disableSnowOnCayoPerico` | Disables permanent and dynamic snow while on Cayo Perico.      | `false`                                   |
+| `Config.disableSnowOnCayoPerico` | Disables permanent and dynamic snow while on Cayo Perico.      | `false`               |
 
 # Exports
 

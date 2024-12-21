@@ -1,9 +1,11 @@
 local meanSeaLevel = Config.isRDR and 40.0 or 0.0
+local toggleWinter = Config.toggleWinter
 
 local currentWeather = nil
 local currentWindDirection = 0.0
-local snowOnGround = false
-local syncEnabled = true
+local snowOnGround = Config.permanentSnow
+local syncEnabled = Config.syncEnabled
+local debug = Config.debug
 
 local forecastIsDisplayed = false
 local adminUiIsOpen = false
@@ -42,7 +44,7 @@ local function setTime(hour, minute, second, transitionTime, freeze)
 		Citizen.InvokeNative(0x669E223E64B1903C, hour, minute, second, transitionTime, true)
 	else
 		if currentTimescale == 30 then
-			currentTime = freeze and {hour = hour, minute = minute}
+			currentTime = freeze and { hour = hour, minute = minute }
 
 			local h = GetClockHours()
 			local m = GetClockMinutes()
@@ -52,7 +54,7 @@ local function setTime(hour, minute, second, transitionTime, freeze)
 				NetworkOverrideClockTime(hour, minute, 0)
 			end
 		else
-			currentTime = {hour = hour, minute = minute}
+			currentTime = { hour = hour, minute = minute }
 		end
 	end
 end
@@ -80,66 +82,87 @@ end
 local function translateWeatherForRegion(weather, x, y, z)
 	if Config.isRDR then
 		local temp = GetTemperatureAtCoords(x, y, z)
-
-		if weather == "rain" then
-			if isInSnowyRegion(x, y, z) then
-				return "snow"
-			elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
-				return "snow"
-			elseif isInDesertRegion(x, y, z) then
-				return "thunder"
+		if toggleWinter then
+			if weather == 'rain' then
+				return 'snow'
+			elseif weather == 'drizzle' then
+				return 'snowlight'
+			elseif weather == 'thunderstorm' then
+				return 'blizzard'
+			elseif weather == 'shower' then
+				return 'sleet'
+			elseif weather == 'hurricane' then
+				return 'whiteout'
+			elseif weather == 'thunder' then
+				return 'snowlight'
+			elseif weather == 'highpressure' then
+				return 'groundblizzard'
+			elseif weather == 'misty' then
+				return 'snow'
+			elseif weather == 'fog' then
+				return 'snow'
 			end
-		elseif weather == "thunderstorm" then
-			if isInSnowyRegion(x, y, z) then
-				return "blizzard"
-			elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
-				return "blizzard"
-			elseif isInDesertRegion(x, y, z) then
-				return "rain"
-			end
-		elseif weather == "hurricane" then
-			if isInSnowyRegion(x, y, z) then
-				return "whiteout"
-			elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
-				return "whiteout"
-			elseif isInDesertRegion(x, y, z) then
-				return "sandstorm"
-			end
-		elseif weather == "drizzle" then
-			if isInSnowyRegion(x, y, z) then
-				return "snowlight"
-			elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
-				return "snowlight"
-			elseif isInDesertRegion(x, y, z) then
-				return "sunny"
-			end
-		elseif weather == "shower" then
-			if isInSnowyRegion(x, y, z) then
-				return "groundblizzard"
-			elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
-				return "groundblizzard"
-			elseif isInDesertRegion(x, y, z) then
-				return "sunny"
-			end
-		elseif weather == "fog" then
-			if isInSnowyRegion(x, y, z) then
-				return "snowlight"
-			end
-		elseif weather == "misty" then
-			if isInSnowyRegion(x, y, z) then
-				return "snowlight"
-			end
-		elseif weather == "snow" then
-			if isInGuarma(x, y, z) then
-				return "sunny"
-			end
-		elseif weather == "snowlight" then
-			if isInGuarma(x, y, z) then
-				return "sunny"
-			end
-		elseif weather == "blizzard" then
-			if isInGuarma(x, y, z) then
-				return "sunny"
+		else
+			if weather == "rain" then
+				if isInSnowyRegion(x, y, z) then
+					return "snow"
+				elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
+					return "snow"
+				elseif isInDesertRegion(x, y, z) then
+					return "thunder"
+				end
+			elseif weather == "thunderstorm" then
+				if isInSnowyRegion(x, y, z) then
+					return "blizzard"
+				elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
+					return "blizzard"
+				elseif isInDesertRegion(x, y, z) then
+					return "rain"
+				end
+			elseif weather == "hurricane" then
+				if isInSnowyRegion(x, y, z) then
+					return "whiteout"
+				elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
+					return "whiteout"
+				elseif isInDesertRegion(x, y, z) then
+					return "sandstorm"
+				end
+			elseif weather == "drizzle" then
+				if isInSnowyRegion(x, y, z) then
+					return "snowlight"
+				elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
+					return "snowlight"
+				elseif isInDesertRegion(x, y, z) then
+					return "sunny"
+				end
+			elseif weather == "shower" then
+				if isInSnowyRegion(x, y, z) then
+					return "groundblizzard"
+				elseif isInNorthernRegion(x, y, z) and temp < 0.0 then
+					return "groundblizzard"
+				elseif isInDesertRegion(x, y, z) then
+					return "sunny"
+				end
+			elseif weather == "fog" then
+				if isInSnowyRegion(x, y, z) then
+					return "snowlight"
+				end
+			elseif weather == "misty" then
+				if isInSnowyRegion(x, y, z) then
+					return "snowlight"
+				end
+			elseif weather == "snow" then
+				if isInGuarma(x, y, z) then
+					return "sunny"
+				end
+			elseif weather == "snowlight" then
+				if isInGuarma(x, y, z) then
+					return "sunny"
+				end
+			elseif weather == "blizzard" then
+				if isInGuarma(x, y, z) then
+					return "sunny"
+				end
 			end
 		end
 	else
@@ -156,7 +179,8 @@ local function translateWeatherForRegion(weather, x, y, z)
 end
 
 local function isSnowyWeather(weather)
-	return weather == "blizzard" or weather == "groundblizzard" or weather == "snow" or weather == "whiteout" or weather == "snowlight"
+	return weather == "blizzard" or weather == "groundblizzard" or weather == "snow" or weather == "whiteout" or
+		weather == "snowlight"
 end
 
 local function translateWindForAltitude(direction, speed)
@@ -164,11 +188,11 @@ local function translateWindForAltitude(direction, speed)
 	local altitudeSea = GetEntityCoords(ped).z - meanSeaLevel
 	local altitudeTerrain = GetEntityHeightAboveGround(ped)
 
-	local directionMultiplier = math.floor(altitudeSea / Config.windShearInterval)
-	local speedMultiplier = math.floor(altitudeTerrain / Config.windShearInterval)
+	local directionMultiplier = math.floor(altitudeSea / 50)
+	local speedMultiplier = math.floor(altitudeTerrain / 50)
 
-	direction = (direction + directionMultiplier * Config.windShearDirection) % 360
-	speed = speed + speedMultiplier * Config.windShearSpeed
+	direction = (direction + directionMultiplier * 45) % 360
+	speed = speed + speedMultiplier * 2
 
 	return direction, speed
 end
@@ -212,7 +236,7 @@ local function updateForecast(forecast)
 			temperature = math.floor(GetTemperatureAtCoords(x, y, z))
 			temperatureUnit = "C"
 		else
-			temperature = math.floor(GetTemperatureAtCoords(x, y, z) * 9/5 + 32)
+			temperature = math.floor(GetTemperatureAtCoords(x, y, z) * 9 / 5 + 32)
 			temperatureUnit = "F"
 		end
 
@@ -248,10 +272,12 @@ local function toggleSync()
 
 	syncEnabled = not syncEnabled
 
-	TriggerEvent("chat:addMessage", {
-		color = {255, 255, 128},
-		args = {"Weather Sync", syncEnabled and "on" or "off"}
-	})
+	if debug then
+		TriggerEvent("chat:addMessage", {
+			color = { 255, 255, 128 },
+			args = { "weathersync", syncEnabled and "on" or "off" }
+		})
+	end
 end
 
 local function setSyncEnabled(toggle)
@@ -292,7 +318,7 @@ local function setMyTime(h, m, s, t)
 	end
 
 	if not Config.isRDR then
-		currentTime = {hour = h, minute = m}
+		currentTime = { hour = h, minute = m }
 	end
 
 	setTime(h, m, s, t, true)
@@ -337,7 +363,8 @@ AddEventHandler("weathersync:changeWeather", function(weather, transitionTime, p
 			end
 		end
 	else
-		snowOnGround = (permanentSnow and not (Config.disableSnowOnCayoPerico and isInCayoPerico(x, y, z))) or (Config.dynamicSnow and isSnowyWeather(translatedWeather))
+		snowOnGround = (permanentSnow and not (Config.disableSnowOnCayoPerico and isInCayoPerico(x, y, z))) or
+			(Config.dynamicSnow and isSnowyWeather(translatedWeather))
 	end
 
 	if translatedWeather ~= currentWeather then
@@ -422,7 +449,7 @@ AddEventHandler("weathersync:updateAdminUi", function(weather, time, timescale, 
 end)
 
 RegisterNUICallback("getGameName", function(data, cb)
-	cb({gameName = Config.isRDR and "rdr3" or "gta5"})
+	cb({ gameName = Config.isRDR and "rdr3" or "gta5" })
 end)
 
 RegisterNUICallback("setTime", function(data, cb)
@@ -467,50 +494,50 @@ Citizen.CreateThread(function()
 	TriggerEvent("chat:addSuggestion", "/forecast", "Toggle display of weather forecast", {})
 
 	TriggerEvent("chat:addSuggestion", "/syncdelay", "Change how often time/weather are synced.", {
-		{name = "delay", help = "The time in milliseconds between syncs"}
+		{ name = "delay", help = "The time in milliseconds between syncs" }
 	})
 
 	TriggerEvent("chat:addSuggestion", "/time", "Change the time", {
-		{name = "day", help = "0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat"},
-		{name = "hour", help = "0-23"},
-		{name = "minute", help = "0-59"},
-		{name = "second", help = "0-59"},
-		{name = "transition", help = "Transition time in milliseconds"},
-		{name = "freeze", help = "0 = don\"t freeze time, 1 = freeze time"}
+		{ name = "day", help = "0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat" },
+		{ name = "hour", help = "0-23" },
+		{ name = "minute", help = "0-59" },
+		{ name = "second", help = "0-59" },
+		{ name = "transition", help = "Transition time in milliseconds" },
+		{ name = "freeze", help = "0 = don\"t freeze time, 1 = freeze time" }
 	})
 
 	TriggerEvent("chat:addSuggestion", "/timescale", "Change the rate at which time passes", {
-		{name = "scale", help = "Number of in-game seconds per real-time second"}
+		{ name = "scale", help = "Number of in-game seconds per real-time second" }
 	})
 
 	TriggerEvent("chat:addSuggestion", "/weather", "Change the weather", {
-		{name = "type", help = "The type of weather to change to"},
-		{name = "transition", help = "Transition time in seconds"},
-		{name = "freeze", help = "0 = don\"t freeze weather, 1 = freeze weather"},
-		{name = "snow", help = "0 = temporary snow coverage, 1 = permanent snow coverage"}
+		{ name = "type", help = "The type of weather to change to" },
+		{ name = "transition", help = "Transition time in seconds" },
+		{ name = "freeze", help = "0 = don\"t freeze weather, 1 = freeze weather" },
+		{ name = "snow", help = "0 = temporary snow coverage, 1 = permanent snow coverage" }
 	})
 
 	TriggerEvent("chat:addSuggestion", "/weatherui", "Open weather admin UI", {})
 
 	TriggerEvent("chat:addSuggestion", "/wind", "Change wind direction and speed", {
-		{name = "direction", help = "Direction of the wind in degrees"},
-		{name = "speed", help = "Minimum wind speed"},
-		{name = "freeze", help = "0 don\"t freeze wind, 1 = freeze wind"}
+		{ name = "direction", help = "Direction of the wind in degrees" },
+		{ name = "speed", help = "Minimum wind speed" },
+		{ name = "freeze", help = "0 don\"t freeze wind, 1 = freeze wind" }
 	})
 
 	TriggerEvent("chat:addSuggestion", "/weathersync", "Enable/disable weather and time sync", {})
 
 	TriggerEvent("chat:addSuggestion", "/mytime", "Change local time (if weathersync is off)", {
-		{name = "hour", help = "0-23"},
-		{name = "minute", help = "0-59"},
-		{name = "second", help = "0-59"},
-		{name = "transition", help = "Transition time in milliseconds"}
+		{ name = "hour", help = "0-23" },
+		{ name = "minute", help = "0-59" },
+		{ name = "second", help = "0-59" },
+		{ name = "transition", help = "Transition time in milliseconds" }
 	})
 
 	TriggerEvent("chat:addSuggestion", "/myweather", "Change local weather (if weathersync is off)", {
-		{name = "type", help = "The type of weather to change to"},
-		{name = "transition", help = "Transition time in seconds"},
-		{name = "snow", help = "0 = no snow on ground, 1 = snow on ground"}
+		{ name = "type", help = "The type of weather to change to" },
+		{ name = "transition", help = "Transition time in seconds" },
+		{ name = "snow", help = "0 = no snow on ground, 1 = snow on ground" }
 	})
 
 	TriggerServerEvent("weathersync:init")
